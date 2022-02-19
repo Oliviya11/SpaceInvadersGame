@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,10 @@ public class Invaders : MonoBehaviour
     [SerializeField] float initialSpeed = 1f;
     [SerializeField] float speedStep = 0.5f;
     float speed;
-    private float distanceBetweenTransforms = 3f;
+    float distanceBetweenTransforms = 3f;
+    int destroyedInvadersNumber = 0;
+    int invadersNumber = 0;
+    public Action onDestroyed;
 
     public void Awake()
     {
@@ -20,6 +24,7 @@ public class Invaders : MonoBehaviour
 
     void Create()
     {
+        invadersNumber = rows * columns;
         speed = initialSpeed;
         
         int k = 0;
@@ -50,6 +55,11 @@ public class Invaders : MonoBehaviour
         scoreInfo.score = invader.ScoreForDestroy;
         scoreInfo.color = invader.Color;
         gameManager.AddScore(scoreInfo);
+        destroyedInvadersNumber++;
+        if (destroyedInvadersNumber >= invadersNumber)
+        {
+            onDestroyed?.Invoke();
+        }
     }
     
     private void Update()

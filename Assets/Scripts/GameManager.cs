@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,9 +14,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] Counter counter;
     [SerializeField] Text scoreText;
     [SerializeField] Text livesText;
+    [SerializeField] Text winText;
+    [SerializeField] Text loseText;
     [SerializeField] GameData gameData;
     [SerializeField] Vector3 playerPos;
     [SerializeField] Vector3 invadersPos;
+    [SerializeField] GameObject endGamePopUp;
     Player currentPlayer;
     Invaders currentInvaders;
     public Camera MyCamera => myCamera;
@@ -30,6 +34,14 @@ public class GameManager : MonoBehaviour
         gameData.lives = 3;
         UpdateLives(gameData.lives);
         CreateLevel();
+        HideGameStatus();
+        endGamePopUp.SetActive(false);
+    }
+
+    void HideGameStatus()
+    {
+        winText.gameObject.SetActive(false);
+        loseText.gameObject.SetActive(false);
     }
 
     void CreateLevel()
@@ -38,6 +50,7 @@ public class GameManager : MonoBehaviour
         currentPlayer.onDestroyed += ResetGame;
         currentInvaders = Instantiate(invaders, invadersPos, quaternion.identity, transform);
         currentInvaders.gameManager = this;
+        currentInvaders.onDestroyed += Win;
     }
     
     public void AddScore(ScoreInfo info)
@@ -67,5 +80,28 @@ public class GameManager : MonoBehaviour
             CreateLevel();
             counter.Reset();
         }
+        else
+        {
+            Lose();
+        }
+    }
+
+    void Win()
+    {
+        winText.gameObject.SetActive(true);
+        StartCoroutine(ShowEndGamePopUp());
+    }
+
+    void Lose()
+    {
+        loseText.gameObject.SetActive(true);
+        StartCoroutine(ShowEndGamePopUp());
+    }
+
+    IEnumerator ShowEndGamePopUp()
+    {
+        yield return new WaitForSeconds(1f);
+        HideGameStatus();
+        endGamePopUp.SetActive(true);
     }
 }

@@ -7,6 +7,16 @@ public class Launch : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadScene("SpaceInvadersGame");
+        LoadScene("SpaceInvadersGame");
+    }
+    
+    public void LoadMenuGame()
+    {
+        LoadScene("Launch");
+    }
+
+    void LoadScene(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }
