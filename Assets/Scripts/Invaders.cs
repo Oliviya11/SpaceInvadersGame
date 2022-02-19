@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class Invaders : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
     [SerializeField] List<Invader> transforms;
     [SerializeField] private int rows, columns;
     [SerializeField] Vector3 direction = Vector3.right;
     [SerializeField] float moveDownStep = 0.8f;
     [SerializeField] float initialSpeed = 1f;
     [SerializeField] float speedStep = 0.5f;
-    [SerializeField] ScoreCreator scoreCreator;
-    [SerializeField] Camera myCamera;
     float speed;
     private float distanceBetweenTransforms = 3f;
 
@@ -42,18 +41,18 @@ public class Invaders : MonoBehaviour
     {
         invader.gameObject.SetActive(false);
         ScoreInfo scoreInfo = new ScoreInfo();
-        scoreInfo.pos = myCamera.WorldToScreenPoint(invader.transform.position);
+        scoreInfo.pos = gameManager.MyCamera.WorldToScreenPoint(invader.transform.position);
         scoreInfo.score = invader.ScoreForDestroy;
         scoreInfo.color = invader.Color;
-        scoreCreator.createScore(scoreInfo);
+        gameManager.AddScore(scoreInfo);
     }
     
     private void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
 
-        Vector3 rightEdge = myCamera.ViewportToWorldPoint(Vector3.right);
-        Vector3 leftEdge = myCamera.ViewportToWorldPoint(Vector3.zero);
+        Vector3 rightEdge = gameManager.MyCamera.ViewportToWorldPoint(Vector3.right);
+        Vector3 leftEdge = gameManager.MyCamera.ViewportToWorldPoint(Vector3.zero);
 
         foreach (Transform invader in transform)
         {
