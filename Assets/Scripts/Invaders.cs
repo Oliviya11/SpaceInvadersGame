@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Invaders : MonoBehaviour
 {
-    [SerializeField] GameManager gameManager;
+    public GameManager gameManager;
     [SerializeField] List<Invader> transforms;
     [SerializeField] private int rows, columns;
     [SerializeField] Vector3 direction = Vector3.right;
@@ -14,6 +14,11 @@ public class Invaders : MonoBehaviour
     private float distanceBetweenTransforms = 3f;
 
     public void Awake()
+    {
+        Create();
+    }
+
+    void Create()
     {
         speed = initialSpeed;
         

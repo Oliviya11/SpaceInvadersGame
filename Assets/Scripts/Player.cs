@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] Projectile projectilePrefab;
     Vector2 size;
     bool isProjectile;
+    public Action onDestroyed;
 
     void Start()
     {
@@ -58,6 +60,7 @@ public class Player : MonoBehaviour
     
     private void OnCollision()
     {
+        onDestroyed?.Invoke();
         Destroy(gameObject);
     }
 
