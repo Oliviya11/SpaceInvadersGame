@@ -3,8 +3,12 @@ using UnityEngine;
 
 public class Invader : MonoBehaviour
 {
+    [SerializeField] int scoreForDestroy;
+    [SerializeField] Color color;
     public Action<Invader> onDestroyed;
-    
+    public int ScoreForDestroy => scoreForDestroy;
+    public Color Color => color;
+
     private void OnCollision()
     {
         onDestroyed.Invoke(this);

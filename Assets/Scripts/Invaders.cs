@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ public class Invaders : MonoBehaviour
     [SerializeField] float moveDownStep = 0.8f;
     [SerializeField] float initialSpeed = 1f;
     [SerializeField] float speedStep = 0.5f;
+    [SerializeField] ScoreCreator scoreCreator;
+    [SerializeField] Camera myCamera;
     float speed;
     private float distanceBetweenTransforms = 3f;
 
@@ -40,14 +41,19 @@ public class Invaders : MonoBehaviour
     void OnHit(Invader invader)
     {
         invader.gameObject.SetActive(false);
+        ScoreInfo scoreInfo = new ScoreInfo();
+        scoreInfo.pos = myCamera.WorldToScreenPoint(invader.transform.position);
+        scoreInfo.score = invader.ScoreForDestroy;
+        scoreInfo.color = invader.Color;
+        scoreCreator.createScore(scoreInfo);
     }
     
     private void Update()
     {
         transform.position += direction * speed * Time.deltaTime;
 
-        Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
-        Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        Vector3 rightEdge = myCamera.ViewportToWorldPoint(Vector3.right);
+        Vector3 leftEdge = myCamera.ViewportToWorldPoint(Vector3.zero);
 
         foreach (Transform invader in transform)
         {
