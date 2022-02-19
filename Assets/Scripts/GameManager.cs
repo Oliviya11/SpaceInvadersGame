@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using InvadersCore;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,8 +50,8 @@ public class GameManager : MonoBehaviour
         currentPlayer = Instantiate(player, playerPos, Quaternion.identity, transform);
         currentPlayer.onDestroyed += ResetGame;
         currentInvaders = Instantiate(invaders, invadersPos, quaternion.identity, transform);
-        currentInvaders.gameManager = this;
-        currentInvaders.onDestroyed += Win;
+        //currentInvaders.gameManager = this;
+        //currentInvaders.onDestroyed += Win;
     }
     
     public void AddScore(ScoreInfo info)
