@@ -16,7 +16,7 @@ public class ScoreCreator : MonoBehaviour
     [SerializeField] 
     private GameObject prefabScore;
 
-    public void createScore(ScoreInfo scoreInfo)
+    public void CreateScore(ScoreInfo scoreInfo)
     {
         GameObject label = null;
         

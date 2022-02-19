@@ -8,40 +8,52 @@ public class Counter : MonoBehaviour
 {
     [SerializeField] int secondsToCount = 3;
     [SerializeField] Text text;
+    int secondsToCountInternal;
     float timePassed = 0;
     private float milisecondsToCount = 0;
     private int counter = 1;
     private const int MILISECONDS_IN_SECOND = 1000;
     public Action onCounterEnded;
+    public bool IsInited { get; set; }
 
-    void Awake()
+    public void Init()
+    {
+        IsInited = true;
+        Reset();
+    }
+
+    public void Reset()
     {
         milisecondsToCount = secondsToCount * MILISECONDS_IN_SECOND;
         text.text = secondsToCount.ToString();
-    }
-
-    void Reset()
-    {
-        
+        secondsToCountInternal = secondsToCount;
+        timePassed = 0;
+        counter = 1;
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
     }
     
     void Update()
     {
+        if (!IsInited) return;
+        
         if (timePassed < milisecondsToCount)
         {
             timePassed += Time.unscaledTime;
             if (timePassed > counter * MILISECONDS_IN_SECOND)
             {
                 counter++;
-                secondsToCount--;
-                if (secondsToCount == 0)
+                secondsToCountInternal--;
+                if (secondsToCountInternal == 0)
                 {
                     gameObject.SetActive(false);
                     onCounterEnded?.Invoke();
                 }
                 else
                 {
-                    text.text = secondsToCount.ToString();
+                    text.text = secondsToCountInternal.ToString();
                 }
             }
         }

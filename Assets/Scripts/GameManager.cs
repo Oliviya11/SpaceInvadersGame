@@ -10,11 +10,12 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         Time.timeScale = 0;
+        counter.Init();
         counter.onCounterEnded += delegate { Time.timeScale = 1; };
     }
     
     public void AddScore(ScoreInfo info)
     {
-        scoreCreator.createScore(info);
+        scoreCreator.CreateScore(info);
     }
 }
