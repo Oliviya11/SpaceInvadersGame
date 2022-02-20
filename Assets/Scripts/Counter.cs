@@ -8,58 +8,37 @@ public class Counter : MonoBehaviour
 {
     [SerializeField] int secondsToCount = 3;
     [SerializeField] Text text;
-    int secondsToCountInternal;
-    float timePassed = 0;
-    private float milisecondsToCount = 0;
-    private int counter = 1;
-    private const int MILISECONDS_IN_SECOND = 1000;
-    public Action onCounterEnded;
-    public bool IsLaunched;
-
-    public void Init()
-    {
-        Reset();
-        onCounterEnded += delegate { IsLaunched = false; };
-    }
+    public Action OnCounterEnded;
+    float elapsed = 0f;
+    int counter = 0;
 
     public void Reset()
     {
-        milisecondsToCount = secondsToCount * MILISECONDS_IN_SECOND;
+        counter = 0;
+        elapsed = 1;
         text.text = secondsToCount.ToString();
-        secondsToCountInternal = secondsToCount;
-        timePassed = 0;
-        counter = 1;
-        if (!gameObject.activeSelf)
-        {
-            gameObject.SetActive(true);
-        }
-        IsLaunched = true;
+        text.gameObject.SetActive(true);
     }
     
     void Update()
     {
-        if (!IsLaunched)
-        {
-            return;
+        elapsed += Time.unscaledDeltaTime;
+        if (elapsed >= 1f) {
+            elapsed = elapsed % 1f;
+            OutputTime();
         }
-        
-        if (timePassed < milisecondsToCount)
+    }
+    void OutputTime()
+    {
+        int res = secondsToCount - counter++;
+        if (res <= 0)
         {
-            timePassed += Time.unscaledTime;
-            if (timePassed > counter * MILISECONDS_IN_SECOND)
-            {
-                counter++;
-                secondsToCountInternal--;
-                if (secondsToCountInternal == 0)
-                {
-                    gameObject.SetActive(false);
-                    onCounterEnded?.Invoke();
-                }
-                else
-                {
-                    text.text = secondsToCountInternal.ToString();
-                }
-            }
+            OnCounterEnded?.Invoke();
+            text.gameObject.SetActive(false);
+        }
+        else
+        {
+            text.text = res.ToString();
         }
     }
 }

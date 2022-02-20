@@ -1106,6 +1106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   secondsToCount: 3
   text: {fileID: 1203328776}
+  period: 1
 --- !u!1 &1234387000
 GameObject:
   m_ObjectHideFlags: 0

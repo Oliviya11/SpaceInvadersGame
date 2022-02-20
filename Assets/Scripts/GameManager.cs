@@ -25,8 +25,7 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         Time.timeScale = 0;
-        counter.Init();
-        counter.onCounterEnded += delegate { Time.timeScale = 1; };
+        counter.OnCounterEnded += delegate { Time.timeScale = 1; };
         gameData.score = 0;
         UpdateScore(gameData.score);
         gameData.lives = 3;
