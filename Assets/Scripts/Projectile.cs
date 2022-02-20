@@ -8,12 +8,6 @@ namespace DefaultNamespace
         [SerializeField] float speed = 20f;
         [SerializeField] Vector3 direction = Vector3.up;
         public Action<Projectile> onDestroyed;
-        private new BoxCollider2D collider;
-
-        private void Awake()
-        {
-            collider = GetComponent<BoxCollider2D>();
-        }
 
         private void OnDestroy()
         {
