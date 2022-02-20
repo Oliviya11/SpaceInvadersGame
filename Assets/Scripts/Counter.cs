@@ -14,12 +14,12 @@ public class Counter : MonoBehaviour
     private int counter = 1;
     private const int MILISECONDS_IN_SECOND = 1000;
     public Action onCounterEnded;
-    public bool IsInited { get; set; }
+    public bool IsLaunched;
 
     public void Init()
     {
-        IsInited = true;
         Reset();
+        onCounterEnded += delegate { IsLaunched = false; };
     }
 
     public void Reset()
@@ -33,11 +33,15 @@ public class Counter : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
+        IsLaunched = true;
     }
     
     void Update()
     {
-        if (!IsInited) return;
+        if (!IsLaunched)
+        {
+            return;
+        }
         
         if (timePassed < milisecondsToCount)
         {

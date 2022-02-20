@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject endGamePopUp;
     Player currentPlayer;
     Invaders currentInvaders;
-    public Camera MyCamera => myCamera;
 
     public void Awake()
     {
@@ -48,7 +47,7 @@ public class GameManager : MonoBehaviour
         currentPlayer = Instantiate(player, playerPos, Quaternion.identity, transform);
         currentPlayer.onDestroyed += ResetGame;
         currentInvaders = Instantiate(invaders, invadersPos, quaternion.identity, transform);
-        currentInvaders.Init(OnHit, Win, MyCamera);
+        currentInvaders.Init(OnHit, Win, myCamera);
     }
     
     public void AddScore(ScoreInfo info)
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
     {
         invader.gameObject.SetActive(false);
         ScoreInfo scoreInfo = new ScoreInfo();
-        scoreInfo.pos = MyCamera.WorldToScreenPoint(invader.transform.position);
+        scoreInfo.pos = myCamera.WorldToScreenPoint(invader.transform.position);
         scoreInfo.score = invader.ScoreForDestroy;
         scoreInfo.color = invader.Color;
         AddScore(scoreInfo);
@@ -80,11 +79,12 @@ public class GameManager : MonoBehaviour
 
     void ResetGame()
     {
+        Time.timeScale = 0;
         --gameData.lives;
         if (gameData.lives > 0)
         {
             UpdateLives(gameData.lives);
-            Destroy(currentInvaders.gameObject);
+            ClearInvaders();
             CreateLevel();
             counter.Reset();
         }
@@ -94,14 +94,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void ClearInvaders()
+    {
+        if (currentInvaders != null)
+        {
+            Destroy(currentInvaders.gameObject);
+        }
+    }
+
     void Win()
     {
+        Time.timeScale = 1;
         winText.gameObject.SetActive(true);
         StartCoroutine(ShowEndGamePopUp());
     }
 
     void Lose()
     {
+        Time.timeScale = 1;
         loseText.gameObject.SetActive(true);
         StartCoroutine(ShowEndGamePopUp());
     }
@@ -109,6 +119,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ShowEndGamePopUp()
     {
         yield return new WaitForSeconds(1f);
+        ClearInvaders();
         HideGameStatus();
         endGamePopUp.SetActive(true);
     }
