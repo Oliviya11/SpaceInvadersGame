@@ -13,7 +13,8 @@ namespace InvadersCore
         {
             public InvadersData data;
             public Transform parent;
-            public Action OnHit, OnDestroyed;
+            public Action<Invader> OnHit;
+            public Action OnDestroyed;
             public Camera camera;
         }
         Params _params;
@@ -33,12 +34,19 @@ namespace InvadersCore
                 distanceBetweenTransforms = _params.data.DistanceBetweenInvaders,
                 transforms = transforms
             });
+            
+            Vector3 rightEdge = _params.camera.ViewportToWorldPoint(Vector3.right);
+            rightEdge.x -= 1;
+
+            Vector3 leftEdge = _params.camera.ViewportToWorldPoint(Vector3.zero);
+            leftEdge.x += 1;
+
             gridMover = new GridMover(new GridMover.Params()
             {
                 direction = _params.data.Direction,
                 transforms = transforms,
-                rightEdge = _params.camera.ViewportToWorldPoint(Vector3.right),
-                leftEdge = _params.camera.ViewportToWorldPoint(Vector3.left),
+                rightEdge = rightEdge,
+                leftEdge = leftEdge,
                 initialSpeed = _params.data.InitialSpeed,
                 transform = _params.parent,
                 moveDownStep = _params.data.MoveDownStep,
@@ -67,7 +75,7 @@ namespace InvadersCore
         void OnHit(Invader invader)
         {
             invader.gameObject.SetActive(false);
-            _params.OnHit?.Invoke();
+            _params.OnHit?.Invoke(invader);
             destroyedInvadersNumber++;
             if (destroyedInvadersNumber >= invadersNumber)
             {

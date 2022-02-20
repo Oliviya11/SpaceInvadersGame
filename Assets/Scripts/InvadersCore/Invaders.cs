@@ -9,37 +9,28 @@ namespace  InvadersCore
     public class Invaders : MonoBehaviour
 {
     [SerializeField] InvadersData data;
-    private InvadersLogic logic;
+    InvadersLogic logic;
+    bool isInited = false;
 
-    public void Awake()
+    public void Init(Action<Invader> OnHit, Action OnDestroyed, Camera myCamera)
     {
         logic = new InvadersLogic(new InvadersLogic.Params()
         {
             data = data,
             parent = transform,
-            camera = Camera.main,
+            camera = myCamera,
+            OnHit = OnHit,
+            OnDestroyed = OnDestroyed,
         });
+        isInited = true;
     }
 
-    //????
-    void OnHit(Invader invader)
-    {
-        /*invader.gameObject.SetActive(false);
-        ScoreInfo scoreInfo = new ScoreInfo();
-        scoreInfo.pos = gameManager.MyCamera.WorldToScreenPoint(invader.transform.position);
-        scoreInfo.score = invader.ScoreForDestroy;
-        scoreInfo.color = invader.Color;
-        gameManager.AddScore(scoreInfo);
-        destroyedInvadersNumber++;
-        if (destroyedInvadersNumber >= invadersNumber)
-        {
-            onDestroyed?.Invoke();
-        }*/
-    }
-    
     private void Update()
     {
-        logic.Move();
+        if (isInited)
+        {
+            logic.Move();
+        }
     }
 }
 

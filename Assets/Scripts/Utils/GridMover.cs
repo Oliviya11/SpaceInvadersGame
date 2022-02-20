@@ -39,13 +39,13 @@ namespace Utils
                     continue;
                 }
 
-                if (direction == Vector3.right && transform.position.x >= (_params.rightEdge.x - 1f))
+                if (direction == Vector3.right && transform.position.x >= _params.rightEdge.x)
                 {
                     UpdatePosition();
                     break;
                 }
             
-                if (direction == Vector3.left && transform.position.x <= (_params.leftEdge.x + 1f))
+                if (direction == Vector3.left && transform.position.x <= _params.leftEdge.x)
                 {
                     UpdatePosition();
                     break;

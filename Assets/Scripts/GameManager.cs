@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using InvadersCore;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -50,8 +48,7 @@ public class GameManager : MonoBehaviour
         currentPlayer = Instantiate(player, playerPos, Quaternion.identity, transform);
         currentPlayer.onDestroyed += ResetGame;
         currentInvaders = Instantiate(invaders, invadersPos, quaternion.identity, transform);
-        //currentInvaders.gameManager = this;
-        //currentInvaders.onDestroyed += Win;
+        currentInvaders.Init(OnHit, Win, MyCamera);
     }
     
     public void AddScore(ScoreInfo info)
@@ -59,6 +56,16 @@ public class GameManager : MonoBehaviour
         scoreCreator.CreateScore(info);
         gameData.score += info.score;
         UpdateScore(gameData.score);
+    }
+    
+    void OnHit(Invader invader)
+    {
+        invader.gameObject.SetActive(false);
+        ScoreInfo scoreInfo = new ScoreInfo();
+        scoreInfo.pos = MyCamera.WorldToScreenPoint(invader.transform.position);
+        scoreInfo.score = invader.ScoreForDestroy;
+        scoreInfo.color = invader.Color;
+        AddScore(scoreInfo);
     }
 
     void UpdateScore(int score)
