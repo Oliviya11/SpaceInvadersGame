@@ -9,6 +9,7 @@ namespace  InvadersCore
     [SerializeField] InvadersData data;
     InvadersLogic logic;
     bool isInited = false;
+    public InvadersData Data => data;
 
     public void Init(Action<Invader> OnHit, Action OnDestroyed, Camera myCamera)
     {

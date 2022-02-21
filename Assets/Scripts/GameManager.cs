@@ -1,5 +1,6 @@
 using System.Collections;
 using InvadersCore;
+using InvadersCore.Mothership;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] ScoreCreator scoreCreator;
     [SerializeField] Player player;
     [SerializeField] Invaders invaders;
+    [SerializeField] Motherships motherships;
     [SerializeField] Camera myCamera;
     [SerializeField] Counter counter;
     [SerializeField] Text scoreText;
@@ -18,10 +20,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameData gameData;
     [SerializeField] Vector3 playerPos;
     [SerializeField] Vector3 invadersPos;
+    [SerializeField] Vector3 mothershipsPos;
     [SerializeField] GameObject endGamePopUp;
     Player currentPlayer;
     Invaders currentInvaders;
-
+    Motherships currentMotherships;
+    public Invaders Invaders => currentInvaders;
+    public Camera MyCamera => myCamera;
+    
     public void Awake()
     {
         Time.timeScale = 0;
@@ -43,10 +49,12 @@ public class GameManager : MonoBehaviour
 
     void CreateLevel()
     {
-        currentPlayer = Instantiate(player, playerPos, Quaternion.identity, transform);
+        currentPlayer = Instantiate(player, playerPos, Quaternion.identity);
         currentPlayer.onDestroyed += ResetGame;
-        currentInvaders = Instantiate(invaders, invadersPos, quaternion.identity, transform);
+        currentInvaders = Instantiate(invaders, invadersPos, Quaternion.identity);
         currentInvaders.Init(OnHit, Win, myCamera);
+        currentMotherships = Instantiate(motherships, mothershipsPos, Quaternion.identity);
+        currentMotherships.Init(currentInvaders, myCamera, OnHit);
     }
     
     public void AddScore(ScoreInfo info)
@@ -98,6 +106,11 @@ public class GameManager : MonoBehaviour
         if (currentInvaders != null)
         {
             Destroy(currentInvaders.gameObject);
+        }
+
+        if (currentMotherships != null)
+        {
+            Destroy(currentMotherships.gameObject);
         }
     }
 

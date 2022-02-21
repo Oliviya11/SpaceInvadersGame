@@ -133,6 +133,7 @@ MonoBehaviour:
     - {fileID: 6573460576735252854, guid: 1fea14e856d0449a8a62319656878771, type: 3}
     - {fileID: 6573460576735252854, guid: 1fea14e856d0449a8a62319656878771, type: 3}
     - {fileID: 6573460576735252854, guid: 1fea14e856d0449a8a62319656878771, type: 3}
+    transform: {fileID: 8779960792205994555}
     rows: 6
     cols: 6
     direction: {x: 1, y: 0, z: 0}

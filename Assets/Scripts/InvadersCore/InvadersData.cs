@@ -8,7 +8,8 @@ namespace InvadersCore
     public class InvadersData
     {
         [SerializeField] List<Invader> transforms;
-        [SerializeField] private int rows, cols;
+        [SerializeField] Transform transform;
+        [SerializeField] int rows, cols;
         [SerializeField] Vector3 direction = Vector3.right;
         [SerializeField] float moveDownStep = 0.8f;
         [SerializeField] float initialSpeed = 1f;
@@ -23,5 +24,6 @@ namespace InvadersCore
         public float InitialSpeed => initialSpeed;
         public float SpeedStep => speedStep;
         public float DistanceBetweenInvaders => distanceBetweenInvaders;
+        public Transform Transform => transform;
     }
 }

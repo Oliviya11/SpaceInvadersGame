@@ -26,13 +26,14 @@ namespace InvadersCore
             _params = p;
             invadersNumber = _params.data.Rows * _params.data.Cols;
             List<Transform> transforms = Create();
-            new GridPlacer(new GridPlacer.Params()
+            GridPlacer gridPlacer = new GridPlacer(new GridPlacer.Params()
             {
                 rows = _params.data.Rows,
                 cols = _params.data.Cols,
                 distanceBetweenTransforms = _params.data.DistanceBetweenInvaders,
                 transforms = transforms
             });
+            gridPlacer.Place();
             
             Vector3 rightEdge = _params.camera.ViewportToWorldPoint(Vector3.right);
             rightEdge.x -= 1;
@@ -49,7 +50,9 @@ namespace InvadersCore
                 initialSpeed = _params.data.InitialSpeed,
                 transform = _params.parent,
                 moveDownStep = _params.data.MoveDownStep,
-                speedStep = _params.data.SpeedStep
+                speedStep = _params.data.SpeedStep,
+                canMoveBack = true,
+                cam = _params.camera
             });
         }
 

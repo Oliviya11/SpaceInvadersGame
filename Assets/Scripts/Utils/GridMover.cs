@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,12 +16,15 @@ namespace Utils
             public Transform transform;
             public float moveDownStep;
             public float speedStep;
+            public bool canMoveBack;
+            public Camera cam;
+            public Action OutOfScreen;
         }
 
         Params _params;
         private Vector3 direction;
         private float speed;
-        
+
         public GridMover(Params p)
         {
             _params = p;
@@ -30,6 +34,10 @@ namespace Utils
 
         public void Move()
         {
+            if (_params.transform == null)
+            {
+                bool a = false;
+            }
             _params.transform.position += direction * speed * Time.deltaTime;
 
             for (int i = 0; i < _params.transforms.Count; ++i)
@@ -39,18 +47,32 @@ namespace Utils
                     continue;
                 }
 
-                if (direction == Vector3.right && transform.position.x >= _params.rightEdge.x)
+                if (_params.canMoveBack)
                 {
-                    UpdatePosition();
-                    break;
+                    if (direction == Vector3.right && transform.position.x >= _params.rightEdge.x)
+                    {
+                        UpdatePosition();
+                        break;
+                    }
+
+                    if (direction == Vector3.left && transform.position.x <= _params.leftEdge.x)
+                    {
+                        UpdatePosition();
+                        break;
+                    }
                 }
-            
-                if (direction == Vector3.left && transform.position.x <= _params.leftEdge.x)
+
+                if (!IsOnScreen(transform))
                 {
-                    UpdatePosition();
-                    break;
+                    _params.OutOfScreen?.Invoke();
                 }
             }
+        }
+
+        bool IsOnScreen(Transform tr)
+        {
+            Vector3 screenPoint = _params.cam.WorldToViewportPoint(tr.position);
+            return screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
         }
         
         void UpdatePosition()

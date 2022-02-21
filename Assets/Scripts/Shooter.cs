@@ -5,7 +5,7 @@ public class Shooter : MonoBehaviour
 {
     [SerializeField] Projectile projectilePrefab;
     [SerializeField] float shootingDeltaTime = 2;
-    
+
     void Start()
     {
         InvokeRepeating(nameof(Shoot), shootingDeltaTime, shootingDeltaTime);
@@ -13,6 +13,6 @@ public class Shooter : MonoBehaviour
     
     private void Shoot()
     {
-        Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Instantiate(projectilePrefab, transform.position, Quaternion.identity, transform);
     }
 }
