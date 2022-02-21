@@ -167,6 +167,7 @@ MonoBehaviour:
   invadersPos: {x: 0, y: 2.61, z: 1}
   mothershipsPos: {x: 0, y: 0, z: 20}
   endGamePopUp: {fileID: 261777396}
+  inputManager: {fileID: 1509879034}
 --- !u!4 &6493514
 Transform:
   m_ObjectHideFlags: 0
@@ -1253,6 +1254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ca8526dd3864e5a921dd0b6f31e50f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPaused: 0
 --- !u!4 &1509879035
 Transform:
   m_ObjectHideFlags: 0

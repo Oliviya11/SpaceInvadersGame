@@ -8,9 +8,13 @@ namespace Utils
         public static event Action OnRightArrowPressed;
         public static event Action OnLeftArrowPressed;
         public static event Action OnSpacePressed;
+
+        public bool isPaused;
         
         void Update()
         {
+            if (isPaused) return;
+                
             if (Input.GetKey(KeyCode.RightArrow))
             {
                 OnRightArrowPressed?.Invoke();

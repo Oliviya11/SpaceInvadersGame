@@ -105,3 +105,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1a94dd14f514fff88859d1b9360dcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeAfterDestroyed: 2
+  translation: {x: 8, y: 0, z: 0}

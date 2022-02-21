@@ -4,6 +4,7 @@ using InvadersCore.Mothership;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Vector3 invadersPos;
     [SerializeField] Vector3 mothershipsPos;
     [SerializeField] GameObject endGamePopUp;
+    [SerializeField] InputManager inputManager;
     Player currentPlayer;
     Invaders currentInvaders;
     Motherships currentMotherships;
@@ -30,8 +32,8 @@ public class GameManager : MonoBehaviour
     
     public void Awake()
     {
-        Time.timeScale = 0;
-        counter.OnCounterEnded += delegate { Time.timeScale = 1; };
+        Pause();
+        counter.OnCounterEnded += delegate { Unpause(); };
         gameData.score = 0;
         UpdateScore(gameData.score);
         gameData.lives = 3;
@@ -39,6 +41,18 @@ public class GameManager : MonoBehaviour
         CreateLevel();
         HideGameStatus();
         endGamePopUp.SetActive(false);
+    }
+
+    void Pause()
+    {
+        Time.timeScale = 0;
+        inputManager.isPaused = true;
+    }
+
+    void Unpause()
+    {
+        Time.timeScale = 1;
+        inputManager.isPaused = false;
     }
 
     void HideGameStatus()
@@ -92,7 +106,7 @@ public class GameManager : MonoBehaviour
 
     void ResetGame()
     {
-        Time.timeScale = 0;
+        Pause();
         --gameData.lives;
         if (gameData.lives > 0)
         {
@@ -124,14 +138,14 @@ public class GameManager : MonoBehaviour
     {
         if (!currentMotherships.IsDestroyed()) return;
         if (!currentInvaders.IsDestroyed()) return;
-        Time.timeScale = 1;
+        Unpause();
         winText.gameObject.SetActive(true);
         StartCoroutine(ShowEndGamePopUp());
     }
 
     void Lose()
     {
-        Time.timeScale = 1;
+        Unpause();
         loseText.gameObject.SetActive(true);
         StartCoroutine(ShowEndGamePopUp());
     }
