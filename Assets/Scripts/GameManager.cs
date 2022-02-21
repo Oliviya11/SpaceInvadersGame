@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
         currentPlayer = Instantiate(player, playerPos, Quaternion.identity);
         currentPlayer.onDestroyed += ResetGame;
         currentInvaders = Instantiate(invaders, invadersPos, Quaternion.identity);
-        currentInvaders.Init(OnHit, WinOnInvadersDestroyed, myCamera);
+        currentInvaders.Init(OnHit, Win, myCamera);
         currentMotherships = Instantiate(motherships, mothershipsPos, Quaternion.identity);
         currentMotherships.Init(currentInvaders, myCamera, OnHitMothership);
     }
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     void OnHitMothership(Invader invader)
     {
         OnHit(invader);
-        WinOnMothershipsDestroyed();
+        Win();
     }
     
     void OnHit(Invader invader)
@@ -119,22 +119,11 @@ public class GameManager : MonoBehaviour
             Destroy(currentMotherships.gameObject);
         }
     }
-
-    void WinOnInvadersDestroyed()
-    {
-        if (!currentMotherships.IsDestroyed()) return;
-        Win();
-    }
-
-    void WinOnMothershipsDestroyed()
+    
+    void Win()
     {
         if (!currentMotherships.IsDestroyed()) return;
         if (!currentInvaders.IsDestroyed()) return;
-        Win();
-    }
-
-    void Win()
-    {
         Time.timeScale = 1;
         winText.gameObject.SetActive(true);
         StartCoroutine(ShowEndGamePopUp());
