@@ -47,5 +47,18 @@ namespace InvadersCore.Mothership
                 }
             }
         }
+
+        public bool IsDestroyed()
+        {
+            for (int i = 0; i < mothershipLogics.Count; i++)
+            {
+                if (mothershipLogics[i].Mothership.gameObject.activeSelf)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

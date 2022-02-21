@@ -61,6 +61,11 @@ namespace InvadersCore
             gridMover.Move();
         }
 
+        public bool IsDestroyed()
+        {
+            return destroyedInvadersNumber >= invadersNumber;
+        }
+
         List<Transform> Create()
         {
             List<Transform> transforms = new List<Transform>();
@@ -79,7 +84,7 @@ namespace InvadersCore
             invader.gameObject.SetActive(false);
             _params.OnHit?.Invoke(invader);
             destroyedInvadersNumber++;
-            if (destroyedInvadersNumber >= invadersNumber)
+            if (IsDestroyed())
             {
                 _params.OnDestroyed?.Invoke();
             }

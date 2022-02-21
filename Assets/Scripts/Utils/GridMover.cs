@@ -34,10 +34,6 @@ namespace Utils
 
         public void Move()
         {
-            if (_params.transform == null)
-            {
-                bool a = false;
-            }
             _params.transform.position += direction * speed * Time.deltaTime;
 
             for (int i = 0; i < _params.transforms.Count; ++i)

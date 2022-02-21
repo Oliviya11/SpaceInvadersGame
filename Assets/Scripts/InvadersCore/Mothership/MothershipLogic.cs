@@ -74,19 +74,18 @@ namespace InvadersCore.Mothership
 
                 gridMover = new GridMover(new GridMover.Params()
                 {
-                     direction = direction,
-                     transforms = new List<Transform>() {mothership.transform},
-                     rightEdge = rightEdge,
-                     leftEdge = leftEdge,
-                     initialSpeed = 3,
-                     transform = mothership.transform,
-                     moveDownStep = 0,
-                     speedStep = 0,
-                     canMoveBack = false,
-                     cam = _params.camera,
-                     OutOfScreen = delegate { mothership.gameObject.SetActive(false); },
+                    direction = direction,
+                    transforms = new List<Transform>() {mothership.transform},
+                    rightEdge = rightEdge,
+                    leftEdge = leftEdge,
+                    initialSpeed = 3,
+                    transform = mothership.transform,
+                    moveDownStep = 0,
+                    speedStep = 0,
+                    canMoveBack = false,
+                    cam = _params.camera,
+                    OutOfScreen = delegate { mothership.gameObject.SetActive(false); },
                 });
-                //mothership.GetComponent<MotherShipInvader>().Init(_params.camera);
             }
         }
 

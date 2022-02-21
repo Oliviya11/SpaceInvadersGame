@@ -24,6 +24,11 @@ namespace  InvadersCore
         isInited = true;
     }
 
+    public bool IsDestroyed()
+    {
+        return logic.IsDestroyed();
+    }
+
     private void Update()
     {
         if (isInited)
