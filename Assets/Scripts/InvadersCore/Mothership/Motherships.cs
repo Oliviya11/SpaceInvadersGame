@@ -32,9 +32,11 @@ namespace InvadersCore.Mothership
                 camera = camera,
                 parent = transform,
                 OnDestroyed = OnDestroyed,
-            });
-            mothershipLogic.Create();
-            mothershipLogics.Add(mothershipLogic);
+            }).Create();
+            
+            if (mothershipLogic != null) {
+                mothershipLogics.Add(mothershipLogic);
+            }
         }
 
         void Update()

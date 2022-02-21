@@ -30,7 +30,7 @@ namespace InvadersCore.Mothership
             _params = p;
         }
 
-        public void Create()
+        public MothershipLogic Create()
         {
             int creationProbability = RandomGen.Next(100);
             if (creationProbability < _params.mothershipData.ChanceOfAppearance)
@@ -42,7 +42,7 @@ namespace InvadersCore.Mothership
                     direction = Vector3.left;
                 }
 
-                Invader mothership = Object.Instantiate(_params.mothershipData.Prefab, _params.parent);
+                mothership = Object.Instantiate(_params.mothershipData.Prefab, _params.parent);
                 mothership.onDestroyed += _params.OnDestroyed;
                 GridPlacer gridPlacer = new GridPlacer(new GridPlacer.Params()
                 {
@@ -86,7 +86,11 @@ namespace InvadersCore.Mothership
                     cam = _params.camera,
                     OutOfScreen = delegate { mothership.gameObject.SetActive(false); },
                 });
+
+                return this;
             }
+
+            return null;
         }
 
         public void Move()

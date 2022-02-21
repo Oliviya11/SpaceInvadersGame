@@ -46,4 +46,4 @@ MonoBehaviour:
   mothershipData:
     prefab: {fileID: 1540304746380782007, guid: 82c2c3b63d3e043a382461c354b7030d, type: 3}
     apperanceDeltaTime: 4
-    chanceOfAppearance: 99
+    chanceOfAppearance: 40
